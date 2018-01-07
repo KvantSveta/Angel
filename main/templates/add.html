@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-3.3.7/css/angel.css">
+    <script src="bootstrap-3.3.7/js/jquery-3.2.1.min.js"></script>
+    <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function validateForm() {
+            var en = document.getElementById("english");
+            var ru = document.getElementById("russian");
+
+            if (en.value === "" || ru.value === "") {
+                var al = document.getElementById("alert");
+                al.style.display = "block";
+                return false;
+            }
+        }
+    </script>
+    <title>Add new words</title>
+</head>
+<body>
+<main>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/">English</a>
+                </li>
+                <li>
+                    <a href="russian">Russian</a>
+                </li>
+                <li class="active">
+                    <a href="add">Add new words</a>
+                </li>
+                <li>
+                    <a href="dictionary" >Dictionary</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="alert alert-danger" style="display: none" id="alert">
+            <strong>Ошибка!</strong> Для сохранения необходимо внести все данные.
+        </div>
+        <form method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label>English word:</label>
+                <input type="text" name="english" id="english" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Russian word:</label>
+                <input type="text" name="russian" id="russian" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

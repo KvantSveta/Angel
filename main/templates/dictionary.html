@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-3.3.7/css/angel.css">
+    <script src="bootstrap-3.3.7/js/jquery-3.2.1.min.js"></script>
+    <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <title>Dictionary</title>
+</head>
+<body>
+<main>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/">English</a>
+                </li>
+                <li>
+                    <a href="russian">Russian</a>
+                </li>
+                <li>
+                    <a href="add">Add new words</a>
+                </li>
+                <li class="active">
+                    <a href="dictionary" >Dictionary</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+    {% if document %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Word</th>
+                    <th>Translation</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for doc in document %}
+                <tr>
+                    <td>{{ doc._id }}</td>
+                    <td>{{ doc.word }}</td>
+                    <td>{{ doc.translation }}</td>
+                    <td>{{ doc.count }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        Нет данных.
+    {% endif %}
+    </div>
+</main>
+</body>
+</html>
