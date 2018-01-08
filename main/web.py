@@ -38,13 +38,13 @@ def russian():
 @app.route("/add", methods=["GET", "POST"])
 def add():
     if request.method == "POST":
-        english_word = request.form["english"]
-        russian_word = request.form["russian"]
+        english_word = request.form["english"].lower()
+        russian_word = request.form["russian"].lower()
 
         try:
             answer = mongodb.collection.find_one({"word": english_word})
             if answer:
-                return render_template("add.html")
+                return render_template("add.html", repeat=True)
         except Exception as e:
             web_log.error(e)
             raise e
@@ -66,18 +66,18 @@ def add():
 
         session["words_count"] = doc_id
 
-    return render_template("add.html")
+    return render_template("add.html", repeat=False)
 
 
 @app.route("/dictionary", methods=["GET"])
 def dictionary():
     try:
-        document = mongodb.collection.find()
+        document = mongodb.collection.find().sort("word")
     except Exception as e:
         web_log.error(e)
         raise e
 
-    return render_template("dictionary.html", document=document, a=True)
+    return render_template("dictionary.html", document=document)
 
 
 @app.errorhandler(404)

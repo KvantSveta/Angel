@@ -42,7 +42,7 @@
             <tbody>
             {% for doc in document %}
                 <tr>
-                    <td>{{ doc._id }}</td>
+                    <td>{{ loop.index }}</td>
                     <td>{{ doc.word }}</td>
                     <td>{{ doc.translation }}</td>
                     <td>{{ doc.count }}</td>
@@ -51,7 +51,7 @@
             </tbody>
         </table>
     {% else %}
-        Нет данных.
+        <strong>Нет данных.</strong>
     {% endif %}
     </div>
 </main>

@@ -44,6 +44,12 @@
         <div class="alert alert-danger" style="display: none" id="alert">
             <strong>Ошибка!</strong> Для сохранения необходимо внести все данные.
         </div>
+        {% if repeat %}
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+            <strong>Ошибка!</strong> Данное слово уже есть в словаре.
+        </div>
+        {% endif %}
         <form method="post" onsubmit="return validateForm()">
             <div class="form-group">
                 <label>English word:</label>
