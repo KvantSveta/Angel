@@ -1,0 +1,25 @@
+version: "2"
+
+services:
+  web:
+    image: angel:1.0
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    volumes:
+      - .:/home
+    environment:
+      - DB=mongo
+    ports:
+      - 5000:5000
+    entrypoint:
+     - python3.6
+     - main/web.py
+
+  mongo:
+    image: mongo:3.6.1-jessie
+    environment:
+      - MONGO_DATA_DIR=/data/db
+    volumes:
+      - /home/jd/data/db:/data/db

@@ -1,3 +1,4 @@
+import os
 import random
 
 from flask import Flask, render_template, request, session, redirect
@@ -13,7 +14,11 @@ app = Flask(__name__, static_url_path="")
 
 web_log = Logger("web.log")
 
-mongodb = Mongo(db_name="language", collection_name="english")
+mongodb = Mongo(
+    db_name="language",
+    collection_name="english",
+    ip_address=os.environ['DB'] if os.environ.get('DB') else "localhost"
+)
 
 
 def words_count(session, mongodb, log):
