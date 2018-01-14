@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, session
+import random
+
+from flask import Flask, render_template, request, session, redirect
 
 try:
     from logger import Logger
@@ -25,9 +27,71 @@ def words_count(session, mongodb, log):
     return session["words_count"]
 
 
-@app.route("/", methods=["GET"])
+@app.route("/", methods=["GET", "POST"])
 def english():
-    return render_template("english.html")
+    if request.method == "POST":
+        russian_word = request.form["russian"].lower()
+
+        doc = session["english_word"]
+        if not doc:
+            return redirect("/")
+
+        changed_count = 0
+        # correct answer
+        if russian_word in doc["translation"]:
+            changed_count = 10
+            correct = True
+        else:  # incorrect answer
+            if doc["count"] > 0:
+                changed_count = -10
+            correct = False
+
+        # update record when changed_count = 10 or -10
+        if changed_count != 0:
+            try:
+                mongodb.collection.update_one(
+                    {"word": doc["word"]},
+                    {"$inc": {"count": changed_count}}
+                )
+            except Exception as e:
+                web_log.error(e)
+                raise e
+
+        return render_template(
+            "answer.html",
+            english_word=doc["word"],
+            russian_world=doc["translation"],
+            correct=correct
+        )
+
+    # GET request
+    try:
+        # all records when count less than 10
+        document = mongodb.collection.find({"count": {"$lt": 10}})
+    except Exception as e:
+        web_log.error(e)
+        raise e
+
+    if document.count() == 0:
+        return render_template("english.html", english_word="", error=True)
+
+    document = [doc for doc in document]
+
+    while True:
+        # chose random record
+        doc = random.choice(document)
+
+        # number between 0 and 9
+        if doc["count"] <= random.randrange(10):
+            english_word = doc["word"]
+            session["english_word"] = doc
+            break
+
+    return render_template(
+        "english.html",
+        english_word=english_word,
+        error=False
+    )
 
 
 @app.route("/russian", methods=["GET"])

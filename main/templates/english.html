@@ -6,7 +6,17 @@
     <link rel="stylesheet" href="bootstrap-3.3.7/css/angel.css">
     <script src="bootstrap-3.3.7/js/jquery-3.2.1.min.js"></script>
     <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
-    <title>Погода на сегодня</title>
+    <script>
+        function validateForm() {
+            var ru = document.getElementById("russian");
+
+            if (ru.value === "") {
+                var al = document.getElementById("alert");
+                al.style.display = "block";
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
 <main>
@@ -29,7 +39,25 @@
         </div>
     </nav>
     <div class="container">
-
+        {% if error %}
+        <div class="alert alert-info">
+            <strong>Поздравляю!</strong> В словаре больше нет слов для изучения.
+        </div>
+        {% else %}
+        <div class="alert alert-danger" style="display: none" id="alert">
+            <strong>Ошибка!</strong> Для отправки необходимо написать перевод слова {{ english_word }}.
+        </div>
+        <form method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label>English word: {{ english_word }}</label>
+            </div>
+            <div class="form-group">
+                <label>Translation:</label>
+                <input type="text" name="russian" id="russian" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        {% endif %}
     </div>
 </main>
 </body>
