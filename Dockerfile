@@ -1,15 +1,14 @@
-FROM python:3.6.4-stretch
+FROM python:3.6.4-alpine3.7
 
 ADD . /home
 
 WORKDIR /home
 
-RUN apt-get update \
- && pip install -U -r requirements.txt \
- && apt-get clean
+RUN pip install -U -r requirements.txt
 
-RUN echo "Europe/Moscow" > /etc/timezone \
- && dpkg-reconfigure -f noninteractive tzdata
+RUN apk update \
+ && apk add tzdata \
+ && cp -r -f /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 
 # signal SIGTERM
 STOPSIGNAL 15
