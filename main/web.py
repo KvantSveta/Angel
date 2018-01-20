@@ -1,7 +1,7 @@
 import os
 import random
 
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, flash
 
 try:
     from logger import Logger
@@ -19,17 +19,6 @@ mongodb = Mongo(
     collection_name="english",
     ip_address=os.environ['DB'] if os.environ.get('DB') else "localhost"
 )
-
-
-def words_count(session, mongodb, log):
-    if "words_count" not in session:
-        try:
-            session["words_count"] = mongodb.collection.count()
-        except Exception as e:
-            log.error(e)
-            raise e
-
-    return session["words_count"]
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -118,10 +107,14 @@ def add():
             web_log.error(e)
             raise e
 
-        doc_id = words_count(session, mongodb, web_log) + 1
+        try:
+            new_doc_id = mongodb.collection.count() + 1
+        except Exception as e:
+            log.error(e)
+            raise e
 
         document = {
-            "_id": doc_id,
+            "_id": new_doc_id,
             "word": english_word,
             "translation": russian_word,
             "count": 0
@@ -133,7 +126,7 @@ def add():
             web_log.error(e)
             raise e
 
-        session["words_count"] = doc_id
+        flash("New word \"{0}\" have added.".format(english_word))
 
     return render_template("add.html", repeat=False)
 
