@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 
 services:
   web:
@@ -13,6 +13,7 @@ services:
       - DB=mongo
     ports:
       - 5000:5000
+    restart: always
     entrypoint:
      - python3.6
      - main/web.py
@@ -23,3 +24,4 @@ services:
       - MONGO_DATA_DIR=/data/db
     volumes:
       - /home/jd/data/db:/data/db
+    restart: always
