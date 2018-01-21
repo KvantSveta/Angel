@@ -60,8 +60,8 @@ def english():
 
     # GET request
     try:
-        # all records when count less than 10
-        document = mongodb.collection.find({"count": {"$lt": 10}})
+        # all records when count less than 100
+        document = mongodb.collection.find({"count": {"$lt": 100}})
     except Exception as e:
         web_log.error(e)
         raise e
@@ -75,8 +75,8 @@ def english():
         # chose random record
         doc = random.choice(document)
 
-        # number between 0 and 9
-        if doc["count"] <= random.randrange(10):
+        # number between 0 and 100 with step 10
+        if doc["count"] <= random.randrange(0, 100, 10):
             english_word = doc["word"]
             session["english_word"] = doc
             break
