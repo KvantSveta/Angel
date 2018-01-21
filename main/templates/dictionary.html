@@ -37,6 +37,7 @@
                     <th>Word</th>
                     <th>Translation</th>
                     <th>Count</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -51,6 +52,11 @@
                                 {{ doc.count }}% completed
                             </div>
                         </div>
+                    </td>
+                    <td>
+                        <a href="delete/{{ doc._id }}">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

@@ -142,6 +142,17 @@ def dictionary():
     return render_template("dictionary.html", document=document)
 
 
+@app.route("/delete/<int:id>")
+def delete(id):
+    try:
+        mongodb.collection.delete_one({"_id": id})
+    except Exception as e:
+        web_log.error(e)
+        raise e
+
+    return redirect("/dictionary")
+
+
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template(
