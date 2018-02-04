@@ -2,36 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap-3.3.7/css/angel.css">
-    <script src="bootstrap-3.3.7/js/jquery-3.2.1.min.js"></script>
-    <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="bootstrap-4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="fontawesome-free-5.0.6/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="bootstrap-4.0.0/css/angel.css">
+    <script src="bootstrap-4.0.0/js/jquery-3.3.1.min.js"></script>
+    <script src="bootstrap-4.0.0/js/bootstrap.min.js"></script>
     <title>Dictionary</title>
 </head>
 <body>
 <main>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="/">English</a>
-                </li>
-                <li>
-                    <a href="russian">Russian</a>
-                </li>
-                <li>
-                    <a href="add">Add new words</a>
-                </li>
-                <li class="active">
-                    <a href="dictionary" >Dictionary</a>
-                </li>
-            </ul>
-        </div>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <ul class="navbar-nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link" href="/">English</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="russian">Russian</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="add">Add new words</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="dictionary">Dictionary</a>
+            </li>
+        </ul>
     </nav>
     <div class="container">
     {% if document %}
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-hover">
+            <thead class="thead-light">
                 <tr>
                     <th>#</th>
                     <th>Word</th>
@@ -48,14 +47,14 @@
                     <td>{{ doc.translation }}</td>
                     <td>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ doc.count }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ doc.count }}%">
-                                {{ doc.count }}% completed
+                            <div class="progress-bar bg-success" style="width:{{ doc.count }}%">
+                                {{ doc.count }}%
                             </div>
                         </div>
                     </td>
                     <td>
-                        <a href="delete/{{ doc._id }}">
-                            <span class="glyphicon glyphicon-remove"></span>
+                        <a href="delete/{{ doc.word }}">
+                            <span class="fas fa-trash-alt"></span>
                         </a>
                     </td>
                 </tr>

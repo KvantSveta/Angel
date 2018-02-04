@@ -107,14 +107,7 @@ def add():
             web_log.error(e)
             raise e
 
-        try:
-            new_doc_id = mongodb.collection.count() + 1
-        except Exception as e:
-            log.error(e)
-            raise e
-
         document = {
-            "_id": new_doc_id,
             "word": english_word,
             "translation": russian_word,
             "count": 0
@@ -142,10 +135,10 @@ def dictionary():
     return render_template("dictionary.html", document=document)
 
 
-@app.route("/delete/<int:id>")
-def delete(id):
+@app.route("/delete/<english_word>")
+def delete(english_word):
     try:
-        mongodb.collection.delete_one({"_id": id})
+        mongodb.collection.delete_one({"word": english_word})
     except Exception as e:
         web_log.error(e)
         raise e
@@ -158,7 +151,7 @@ def not_found_error(error):
     return render_template(
         "error.html",
         error=404,
-        message="Неправильный адрес страницы. " + error
+        message="Wrong url address. " + error
     ), 404
 
 
