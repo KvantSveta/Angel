@@ -1,6 +1,6 @@
-FROM python:3.6.4-alpine3.7
+FROM python:3.7.2-alpine3.9
 
-ADD . /home
+COPY . /home
 
 WORKDIR /home
 
@@ -13,4 +13,4 @@ RUN apk update \
 # signal SIGTERM
 STOPSIGNAL 15
 
-ENTRYPOINT ["python3.6", "main/web.py"]
+ENTRYPOINT ["python3.7", "main/web.py"]
